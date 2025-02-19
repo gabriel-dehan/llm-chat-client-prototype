@@ -9,6 +9,14 @@ import path from "node:path";
 // https://github.com/RicardoValdovinos/vite-react-boilerplate
 
 export default defineConfig({
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+      },
+    },
+  },
   plugins: [
     TanStackRouterVite({ autoCodeSplitting: true }),
     react(),
