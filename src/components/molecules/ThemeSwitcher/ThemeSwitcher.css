@@ -1,0 +1,13 @@
+.m-theme-switcher {
+  background-color: var(--gray-3);
+  border: 1px solid var(--gray-6);
+  border-radius: 5px;
+
+  display: inline-flex;
+  padding: 0.25rem;
+
+  &:hover {
+    background-color: var(--gray-4);
+    border-color: var(--gray-8);
+  }
+}

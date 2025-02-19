@@ -4,6 +4,9 @@
 @import "@radix-ui/colors/blue.css";
 @import "@radix-ui/colors/blue-dark.css";
 
+@import "@radix-ui/colors/plum.css";
+@import "@radix-ui/colors/plum-dark.css";
+
 @import "@radix-ui/colors/green.css";
 @import "@radix-ui/colors/green-dark.css";
 
@@ -11,11 +14,11 @@
 @import "@radix-ui/colors/red-dark.css";
 
 :root {
-  --background-color: var(--gray-12);
-  --text-color: var(--gray-1);
+  --background-color: var(--gray-1);
+  --text-color: var(--gray-12);
 
-  --primary-color: var(--blue-9);
-  --primary-hover: var(--blue-10);
+  --primary-color: var(--plum-9);
+  --primary-hover: var(--plum-10);
 }
 
 /* Dark theme specific styles */

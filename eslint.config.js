@@ -1,22 +1,22 @@
 import { fixupPluginRules } from '@eslint/compat';
-import eslintJS from "@eslint/js"
+import eslintJS from "@eslint/js";
 import tsParser from '@typescript-eslint/parser';
-import eslintConfigPrettier from "eslint-config-prettier"
-import eslintPluginImport from 'eslint-plugin-import'
-import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
-import eslintPluginReact from "eslint-plugin-react"
-import eslintPluginReactHooks from "eslint-plugin-react-hooks"
-import eslintPluginReactRefresh from "eslint-plugin-react-refresh"
-import eslintPluginUnicorn from "eslint-plugin-unicorn"
-import globals from "globals"
+import eslintConfigPrettier from "eslint-config-prettier";
+import eslintPluginImport from 'eslint-plugin-import';
+import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+import eslintPluginReact from "eslint-plugin-react";
+import eslintPluginReactHooks from "eslint-plugin-react-hooks";
+import eslintPluginReactRefresh from "eslint-plugin-react-refresh";
+import eslintPluginUnicorn from "eslint-plugin-unicorn";
+import unusedImports from 'eslint-plugin-unused-imports';
+import globals from "globals";
 import typescriptEslint from 'typescript-eslint';
-
 const patchedReactHooksPlugin = fixupPluginRules(eslintPluginReactHooks)
 const patchedImportPlugin = fixupPluginRules(eslintPluginImport)
 
 const baseESLintConfig = {
   name: "eslint",
-  extends: [js.configs.recommended, ...tseslint.configs.recommended],
+  extends: [eslintJS.configs.recommended, ...typescriptEslint.configs.recommended],
 
   rules: {
     "no-await-in-loop": "error",
@@ -45,7 +45,7 @@ const typescriptConfig = {
     parserOptions: {
       ecmaFeatures: { modules: true },
       ecmaVersion: "latest",
-      project: "./tsconfig.json",
+      projectService: true,
     },
     globals: {
       ...globals.builtin,
@@ -57,41 +57,85 @@ const typescriptConfig = {
     reportUnusedDisableDirectives: "error"
   },
   plugins: {
-    import: patchedImportPlugin
+    import: patchedImportPlugin,
+    "unused-imports": unusedImports,
   },
   rules: {
     "@typescript-eslint/adjacent-overload-signatures": "error",
-    "@typescript-eslint/array-type": ["error", { "default": "generic" }],
+    "@typescript-eslint/array-type": ["warn", { "default": "array-simple" }],
     "@typescript-eslint/consistent-type-exports": "error",
     "@typescript-eslint/consistent-type-imports": "error",
-    "@typescript-eslint/explicit-function-return-type": "error",
-    "@typescript-eslint/explicit-member-accessibility": "error",
-    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-confusing-void-expression": "error",
     "@typescript-eslint/no-import-type-side-effects": "error",
     "@typescript-eslint/no-require-imports": "error",
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-useless-empty-export": "error",
     "@typescript-eslint/prefer-enum-initializers": "error",
     "@typescript-eslint/prefer-readonly": "error",
     "no-return-await": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/return-await": "error",
     "@typescript-eslint/no-misused-promises": [
-    "error",
-    {
-      "checksVoidReturn": {
-        "attributes": false
+      "error",
+      {
+        "checksVoidReturn": {
+          "attributes": false
+        }
       }
-    }
-  ]
+    ],
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          ['sibling', 'parent'],
+          'index'
+        ],
+        pathGroups: [
+          {
+            pattern: '@src/**',
+            group: 'internal'
+          },
+          {
+            pattern: '**/*.css',
+            group: 'index',
+            position: 'after',
+            patternOptions: {
+              matchBase: true
+            }
+          }
+        ],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true
+        }
+      }
+    ],
   },
   settings: {
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
-        project: './tsconfig.json'
+        projectService: true,
       }
-    }
+    },
+    'import/internal-regex': '^@(src|types|components|pages|contexts|stores|assets|locales|utils|router|hooks|services)/'
   }
 }
 
@@ -167,7 +211,7 @@ const unicornConfig = {
     "unicorn/no-null": "off",
     "unicorn/filename-case": "off",
     "unicorn/prevent-abbreviations": [
-      "error",
+      "off", // TODO: Enable this rule
       {
         "replacements": {
           "db": false,

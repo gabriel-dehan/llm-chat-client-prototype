@@ -4,17 +4,8 @@ type TypedResponse<T> = Omit<Response, "json"> & {
   json(): Promise<T>;
 };
 
-let cachedClient: Client | null = null;
-
-export const useClient = (): Client => {
-  if (!cachedClient) {
-    cachedClient = new Client();
-  }
-  return cachedClient;
-};
-
 export class Client {
-  private baseUrl: string;
+  private readonly baseUrl: string;
   private accessToken: string | null = null;
 
   constructor() {
@@ -83,3 +74,12 @@ export class Client {
     return this.request<void>(path, { method: "DELETE" });
   }
 }
+
+let cachedClient: Client | null = null;
+
+export const getClient = (): Client => {
+  if (!cachedClient) {
+    cachedClient = new Client();
+  }
+  return cachedClient;
+};

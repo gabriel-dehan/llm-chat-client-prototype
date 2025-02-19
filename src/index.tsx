@@ -8,6 +8,7 @@ import Loader from "@components/atoms/Loader/Loader";
 import NotFound from "@pages/NotFound/NotFound";
 
 // Global styles
+import "@assets/styles/fonts.css";
 import "@assets/styles/theme.css";
 import "@assets/styles/global.css";
 

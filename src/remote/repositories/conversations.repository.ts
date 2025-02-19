@@ -1,5 +1,6 @@
-import { Conversation } from "@types/conversations.type";
-import { useClient } from "./client";
+import type { Conversation } from "@types/conversations.type";
+
+import { getClient } from "./client";
 
 // Params types
 export type GetConversationsParams = {
@@ -15,12 +16,15 @@ export type UpdateConversationParams = {
   title?: string;
 };
 
-const client = useClient();
+const client = getClient();
 
 export const getConversations = async (
-  params?: GetConversationsParams
+  parameters?: GetConversationsParams
 ): Promise<Conversation[]> => {
-  const response = await client.get<Conversation[]>("/conversations", params);
+  const response = await client.get<Conversation[]>(
+    "/conversations",
+    parameters
+  );
   return response.json();
 };
 

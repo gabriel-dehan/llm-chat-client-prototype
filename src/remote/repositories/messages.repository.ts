@@ -1,5 +1,6 @@
-import { Message } from "@types/conversations.type";
-import { useClient } from "./client";
+import type { Message } from "@types/conversations.type";
+
+import { getClient } from "./client";
 
 // Params types
 export type GetMessagesParams = {
@@ -15,7 +16,7 @@ export type UpdateMessageParams = {
   content?: string;
 };
 
-const client = useClient();
+const client = getClient();
 
 export const getMessages = async (
   conversationId: string,
