@@ -10,7 +10,6 @@ const Conversation = () => {
 
   return (
     <div>
-      <h1>{t("pages.home.title", "Home")}</h1>
       <Chat conversation={conversation} />
     </div>
   );

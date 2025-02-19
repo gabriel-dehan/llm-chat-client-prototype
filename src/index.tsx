@@ -8,6 +8,7 @@ import Loader from "@components/atoms/Loader/Loader";
 import NotFound from "@pages/NotFound/NotFound";
 
 // Global styles
+import "@assets/styles/theme.css";
 import "@assets/styles/global.css";
 
 // Create a new router instance
@@ -30,7 +31,7 @@ declare module "@tanstack/react-router" {
 }
 
 // Render the app
-const rootElement = document.querySelector("#root") as Element;
+const rootElement = document.querySelector("#app") as Element;
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
@@ -38,6 +39,6 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <Main router={router} />
-    </StrictMode>,
+    </StrictMode>
   );
 }

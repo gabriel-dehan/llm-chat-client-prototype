@@ -1,0 +1,22 @@
+.org-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+
+  &__logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  &__nav-item {
+    list-style: none;
+  }
+}
