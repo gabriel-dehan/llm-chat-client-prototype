@@ -1,6 +1,6 @@
-import "./Header.css";
-
 import ThemeSwitcher from "@src/components/molecules/ThemeSwitcher/ThemeSwitcher";
+
+import "./Header.css";
 
 const Header = () => {
   return (

@@ -2,6 +2,7 @@ import { fixupPluginRules } from '@eslint/compat';
 import eslintJS from "@eslint/js";
 import tsParser from '@typescript-eslint/parser';
 import eslintConfigPrettier from "eslint-config-prettier";
+import cssImportOrder from 'eslint-plugin-css-import-order';
 import eslintPluginImport from 'eslint-plugin-import';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import eslintPluginReact from "eslint-plugin-react";
@@ -59,6 +60,7 @@ const typescriptConfig = {
   plugins: {
     import: patchedImportPlugin,
     "unused-imports": unusedImports,
+    "css-import-order": cssImportOrder
   },
   rules: {
     "@typescript-eslint/adjacent-overload-signatures": "error",
@@ -96,29 +98,18 @@ const typescriptConfig = {
         "argsIgnorePattern": "^_"
       }
     ],
+    'css-import-order/css-import-order': 'error',
     'import/order': [
       'error',
       {
+        "warnOnUnassignedImports": true,
         groups: [
           'builtin',
           'external',
           'internal',
           ['sibling', 'parent'],
+          'type',
           'index'
-        ],
-        pathGroups: [
-          {
-            pattern: '@src/**',
-            group: 'internal'
-          },
-          {
-            pattern: '**/*.css',
-            group: 'index',
-            position: 'after',
-            patternOptions: {
-              matchBase: true
-            }
-          }
         ],
         'newlines-between': 'always',
         alphabetize: {
