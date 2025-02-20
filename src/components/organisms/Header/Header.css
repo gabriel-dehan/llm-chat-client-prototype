@@ -1,8 +1,11 @@
 .org-header {
+  background-color: var(--gray-2);
+  border-bottom: 1px solid var(--gray-4);
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
 
   &__logo {
     width: 32px;
@@ -26,9 +29,29 @@
     list-style: none;
     display: inline-flex;
     align-items: center;
+
+    a {
+      border-bottom: 1px solid var(--primary-color);
+
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      font-weight: 400;
+
+      padding: 0 0.05rem;
+      line-height: 1.25rem;
+
+      &:hover {
+        border-bottom: 1px solid var(--primary-hover);
+      }
+    }
+  }
+
+  &__nav-separator {
+    list-style: none;
+    width: 1px;
+    background-color: var(--gray-6);
   }
 
   &__switcher {
-    padding-left: 1rem;
   }
 }

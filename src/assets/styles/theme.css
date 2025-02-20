@@ -17,17 +17,14 @@
   --background-color: var(--gray-1);
   --text-color: var(--gray-12);
 
-  --primary-color: var(--plum-9);
-  --primary-hover: var(--plum-10);
+  --primary-color: var(--plum-11);
+  --primary-hover: var(--plum-12);
 }
 
 /* Dark theme specific styles */
 :root.dark-theme {
-
 }
-
 
 /* Light theme specific styles */
 :root.light-theme {
-
 }

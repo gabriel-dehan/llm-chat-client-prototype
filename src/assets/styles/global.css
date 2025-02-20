@@ -18,7 +18,8 @@ body {
   min-width: 320px;
 }
 
-#app, .Root {
+#app,
+.Root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -32,7 +33,6 @@ footer {
   margin-top: auto;
 }
 
-
 a {
   font-weight: 500;
   color: var(--primary-color);
@@ -42,7 +42,12 @@ a:hover {
   color: var(--primary-hover);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "Alegreya Sans", Helvetica, Arial, sans-serif;
 }
 
