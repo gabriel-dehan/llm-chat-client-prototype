@@ -1,6 +1,7 @@
-import { ScrollArea } from "@base-ui-components/react/scroll-area";
-import { useNavigate } from "@tanstack/react-router";
+import { FilePlus } from "@phosphor-icons/react";
+import { Link, useNavigate } from "@tanstack/react-router";
 
+import ScrollArea from "@src/components/molecules/ScrollArea/ScrollArea";
 import { useCreateConversationMutation } from "@src/remote/queries/conversations.queries";
 
 import type { Conversation } from "@src/types/conversations.type";
@@ -34,53 +35,66 @@ const ChatSidebar = ({
     <nav className="org-chat-sidebar">
       <div className="org-chat-sidebar__header">
         <button
+          className="org-chat-sidebar__new-conversation-button"
           onClick={() => {
             handleCreateConversation(`New conversation`);
           }}
         >
+          <FilePlus size={16} weight="regular" />
           New Conversation
         </button>
       </div>
-      <ScrollArea.Root className="org-chat-sidebar__scrollarea">
-        <ScrollArea.Viewport className="org-chat-sidebar__viewport">
-          <ul className="org-chat-sidebar__content">
-            <li></li>
+      <div className="org-chat-sidebar__conversations-container">
+        <ScrollArea>
+          <ul className="org-chat-sidebar__conversations">
             {conversations?.map((conversation) => (
               <li
                 key={`conversation-${conversation.id}`}
-                className={
+                className={`org-chat-sidebar__conversation ${
                   activeConversationId === conversation.id ? "active" : ""
-                }
+                }`}
               >
-                {conversation.title} - {conversation.id}
+                <Link
+                  params={{ conversationId: conversation.id }}
+                  to={`/chat/$conversationId`}
+                >
+                  {conversation.title} - {conversation.id}
+                </Link>
               </li>
             ))}
             {conversations?.map((conversation) => (
               <li
                 key={`conversation-${conversation.id}`}
-                className={
+                className={`org-chat-sidebar__conversation ${
                   activeConversationId === conversation.id ? "active" : ""
-                }
+                }`}
               >
-                {conversation.title} - {conversation.id}
+                <Link
+                  params={{ conversationId: conversation.id }}
+                  to={`/chat/$conversationId`}
+                >
+                  {conversation.title} - {conversation.id}
+                </Link>
               </li>
             ))}
             {conversations?.map((conversation) => (
               <li
                 key={`conversation-${conversation.id}`}
-                className={
+                className={`org-chat-sidebar__conversation ${
                   activeConversationId === conversation.id ? "active" : ""
-                }
+                }`}
               >
-                {conversation.title} - {conversation.id}
+                <Link
+                  params={{ conversationId: conversation.id }}
+                  to={`/chat/$conversationId`}
+                >
+                  {conversation.title} - {conversation.id}
+                </Link>
               </li>
             ))}
           </ul>
-        </ScrollArea.Viewport>
-        <ScrollArea.Scrollbar className="org-chat-sidebar__scrollbar">
-          <ScrollArea.Thumb className="org-chat-sidebar__scrollbar-thumb" />
-        </ScrollArea.Scrollbar>
-      </ScrollArea.Root>
+        </ScrollArea>
+      </div>
     </nav>
   );
 };

@@ -4,6 +4,9 @@
 @import "@radix-ui/colors/blue.css";
 @import "@radix-ui/colors/blue-dark.css";
 
+@import "@radix-ui/colors/sky.css";
+@import "@radix-ui/colors/sky-dark.css";
+
 @import "@radix-ui/colors/plum.css";
 @import "@radix-ui/colors/plum-dark.css";
 
@@ -20,8 +23,8 @@
   --component-background-color: var(--gray-3);
   --component-text-color: var(--gray-12);
 
-  --primary-color: var(--plum-11);
-  --primary-hover: var(--plum-12);
+  --primary-color: var(--sky-8);
+  --primary-hover: var(--sky-7);
 }
 
 /* Dark theme specific styles */

@@ -1,0 +1,14 @@
+.org-footer {
+  font-size: 0.9rem;
+
+  background-color: var(--gray-2);
+  border-top: 1px solid var(--gray-4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.6rem 0;
+
+  span {
+    color: var(--plum-11);
+  }
+}

@@ -31,11 +31,11 @@ footer {
 
 a {
   font-weight: 500;
-  color: var(--primary-color);
+  color: var(--plum-11);
   text-decoration: inherit;
 }
 a:hover {
-  color: var(--primary-hover);
+  color: var(--plum-12);
 }
 
 h1,
@@ -53,21 +53,27 @@ h1 {
 }
 
 button {
-  background-color: #1a1a1a;
+  background-color: var(--primary-color);
   transition: border-color 0.25s;
   cursor: pointer;
   outline: none;
 
-  font-size: 1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+
+  font-size: 0.9rem;
+  line-height: 1rem;
   font-weight: 500;
 
-  border-radius: 6px;
+  border-radius: 3px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.5em 1.2em;
 }
 
 button:hover {
-  border-color: #646cff;
+  background-color: var(--primary-hover);
 }
 button:focus,
 button:focus-visible {

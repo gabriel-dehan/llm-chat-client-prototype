@@ -31,7 +31,7 @@
     align-items: center;
 
     a {
-      border-bottom: 1px solid var(--primary-color);
+      border-bottom: 1px solid var(--plum-11);
 
       text-transform: uppercase;
       font-size: 0.875rem;
@@ -41,7 +41,7 @@
       line-height: 1.25rem;
 
       &:hover {
-        border-bottom: 1px solid var(--primary-hover);
+        border-bottom: 1px solid var(--plum-12);
       }
     }
   }

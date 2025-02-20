@@ -1,0 +1,55 @@
+.m-scrollarea {
+  max-height: inherit;
+
+  &__scrollarea {
+    max-height: inherit;
+  }
+
+  &__viewport {
+    height: 100%;
+    border-radius: 0.375rem;
+    outline: 1px solid var(--gray-3);
+    outline-offset: -1px;
+    overscroll-behavior: contain;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-block: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1.5rem;
+  }
+
+  &__scrollbar {
+    display: flex;
+    justify-content: center;
+    background-color: var(--gray-3);
+    width: 0.25rem;
+    border-radius: 0.375rem;
+    margin: 0.5rem;
+    opacity: 0;
+    transition: opacity 150ms 300ms;
+
+    &[data-hovering],
+    &[data-scrolling] {
+      opacity: 1;
+      transition-duration: 75ms;
+      transition-delay: 0ms;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 1.25rem;
+      height: 100%;
+    }
+  }
+
+  &__scrollbar-thumb {
+    width: 100%;
+    border-radius: inherit;
+    background-color: var(--gray-5);
+  }
+}
