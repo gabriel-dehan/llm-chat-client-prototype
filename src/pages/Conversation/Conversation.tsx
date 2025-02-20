@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
 import { useLoaderData } from "@tanstack/react-router";
-import { Route } from "@src/routes/chat.$conversationId";
+import { useTranslation } from "react-i18next";
 
 import Chat from "@src/components/organisms/Chat/Chat";
+import { Route } from "@src/routes/chat.$conversationId";
 
 const Conversation = () => {
   const { t } = useTranslation();

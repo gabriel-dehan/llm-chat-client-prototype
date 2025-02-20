@@ -102,7 +102,7 @@ const typescriptConfig = {
     'import/order': [
       'error',
       {
-        "warnOnUnassignedImports": true,
+        // "warnOnUnassignedImports": true,
         groups: [
           'builtin',
           'external',

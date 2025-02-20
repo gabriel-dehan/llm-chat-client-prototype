@@ -17,6 +17,9 @@
   --background-color: var(--gray-1);
   --text-color: var(--gray-12);
 
+  --component-background-color: var(--gray-3);
+  --component-text-color: var(--gray-12);
+
   --primary-color: var(--plum-11);
   --primary-hover: var(--plum-12);
 }

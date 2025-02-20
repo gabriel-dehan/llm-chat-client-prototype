@@ -1,9 +1,15 @@
-import { Conversation } from "@src/types/conversations.type";
+import { ScrollArea } from "@base-ui-components/react/scroll-area";
 import { useNavigate } from "@tanstack/react-router";
+
 import { useCreateConversationMutation } from "@src/remote/queries/conversations.queries";
+
+import type { Conversation } from "@src/types/conversations.type";
+
+import "./ChatSidebar.css";
+
 type ChatSidebarProps = {
   conversations: Conversation[];
-  activeConversationId: string;
+  activeConversationId?: string;
 };
 
 const ChatSidebar = ({
@@ -18,28 +24,64 @@ const ChatSidebar = ({
       { title },
       {
         onSuccess: (data) => {
-          navigate({ to: `/chat/${data.id}` });
+          void navigate({ to: `/chat/${data.id}` });
         },
       }
     );
   };
 
   return (
-    <ul>
-      <li>
-        <button onClick={() => handleCreateConversation(`New conversation`)}>
+    <nav className="org-chat-sidebar">
+      <div className="org-chat-sidebar__header">
+        <button
+          onClick={() => {
+            handleCreateConversation(`New conversation`);
+          }}
+        >
           New Conversation
         </button>
-      </li>
-      {conversations?.map((conversation) => (
-        <li
-          key={`conversation-${conversation.id}`}
-          className={activeConversationId === conversation.id ? "active" : ""}
-        >
-          {conversation.title} - {conversation.id}
-        </li>
-      ))}
-    </ul>
+      </div>
+      <ScrollArea.Root className="org-chat-sidebar__scrollarea">
+        <ScrollArea.Viewport className="org-chat-sidebar__viewport">
+          <ul className="org-chat-sidebar__content">
+            <li></li>
+            {conversations?.map((conversation) => (
+              <li
+                key={`conversation-${conversation.id}`}
+                className={
+                  activeConversationId === conversation.id ? "active" : ""
+                }
+              >
+                {conversation.title} - {conversation.id}
+              </li>
+            ))}
+            {conversations?.map((conversation) => (
+              <li
+                key={`conversation-${conversation.id}`}
+                className={
+                  activeConversationId === conversation.id ? "active" : ""
+                }
+              >
+                {conversation.title} - {conversation.id}
+              </li>
+            ))}
+            {conversations?.map((conversation) => (
+              <li
+                key={`conversation-${conversation.id}`}
+                className={
+                  activeConversationId === conversation.id ? "active" : ""
+                }
+              >
+                {conversation.title} - {conversation.id}
+              </li>
+            ))}
+          </ul>
+        </ScrollArea.Viewport>
+        <ScrollArea.Scrollbar className="org-chat-sidebar__scrollbar">
+          <ScrollArea.Thumb className="org-chat-sidebar__scrollbar-thumb" />
+        </ScrollArea.Scrollbar>
+      </ScrollArea.Root>
+    </nav>
   );
 };
 

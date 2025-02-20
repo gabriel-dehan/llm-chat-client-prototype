@@ -1,0 +1,7 @@
+.org-chat {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 1rem;
+
+  height: calc(100vh - 80px);
+}
