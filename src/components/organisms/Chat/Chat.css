@@ -4,5 +4,5 @@
   display: grid;
   grid-template-columns: 260px 1fr;
 
-  height: calc(100vh - 60px);
+  height: calc(100vh - 58px);
 }

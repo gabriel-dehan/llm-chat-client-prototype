@@ -62,36 +62,6 @@ const ChatSidebar = ({
                 </Link>
               </li>
             ))}
-            {conversations?.map((conversation) => (
-              <li
-                key={`conversation-${conversation.id}`}
-                className={`org-chat-sidebar__conversation ${
-                  activeConversationId === conversation.id ? "active" : ""
-                }`}
-              >
-                <Link
-                  params={{ conversationId: conversation.id }}
-                  to={`/chat/$conversationId`}
-                >
-                  {conversation.title} - {conversation.id}
-                </Link>
-              </li>
-            ))}
-            {conversations?.map((conversation) => (
-              <li
-                key={`conversation-${conversation.id}`}
-                className={`org-chat-sidebar__conversation ${
-                  activeConversationId === conversation.id ? "active" : ""
-                }`}
-              >
-                <Link
-                  params={{ conversationId: conversation.id }}
-                  to={`/chat/$conversationId`}
-                >
-                  {conversation.title} - {conversation.id}
-                </Link>
-              </li>
-            ))}
           </ul>
         </ScrollArea>
       </div>

@@ -34,14 +34,13 @@ const ChatBox = ({ conversation }: ChatBoxProps) => {
     <div className="org-chatbox">
       <h1 className="org-chatbox__title">{conversation?.title}</h1>
       <div className="org-chatbox__messages-container">
+        {/* <ScrollArea> */}
         <ul className="org-chatbox__messages-list">
           {messages?.map((message) => (
             <Message key={`message-${message.id}`} message={message} />
           ))}
-          {messages?.map((message) => (
-            <Message key={`message-${message.id}`} message={message} />
-          ))}
         </ul>
+        {/* </ScrollArea> */}
       </div>
       <ChatInput onSubmit={handleSubmit} />
     </div>
