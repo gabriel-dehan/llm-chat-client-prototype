@@ -1,6 +1,6 @@
 import { getClient } from "./client";
 
-import type { Conversation } from "@types/conversations.type";
+import type { Conversation } from "@src/types/conversations.types";
 
 // Params types
 export type GetConversationsParams = {

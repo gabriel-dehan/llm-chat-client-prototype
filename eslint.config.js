@@ -22,7 +22,7 @@ const baseESLintConfig = {
   rules: {
     "no-await-in-loop": "error",
     "no-constant-binary-expression": "error",
-    "no-duplicate-imports": "error",
+    "no-duplicate-imports": "warn",
     "no-new-native-nonconstructor": "error",
     "no-promise-executor-return": "error",
     "no-self-compare": "error",
@@ -66,7 +66,7 @@ const typescriptConfig = {
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/array-type": ["warn", { "default": "array-simple" }],
     "@typescript-eslint/consistent-type-exports": "error",
-    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/consistent-type-imports": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",

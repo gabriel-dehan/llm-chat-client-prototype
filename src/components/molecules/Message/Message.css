@@ -1,0 +1,21 @@
+.m-message {
+  list-style: none;
+  padding: 0.8rem;
+  margin: 0;
+
+  &--user {
+    border-radius: 0.7rem;
+    background-color: var(--gray-6);
+    color: var(--gray-12);
+
+    max-width: 70%;
+    margin-left: auto;
+  }
+
+  &--assistant {
+    color: var(--gray-12);
+
+    margin: 2.6rem 0;
+    padding: 0 0;
+  }
+}

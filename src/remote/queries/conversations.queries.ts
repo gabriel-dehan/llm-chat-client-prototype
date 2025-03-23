@@ -1,15 +1,15 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Conversation } from "@src/types/conversations.types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  getConversations,
-  GetConversationsParams,
-  getConversationById,
   CreateConversationParams,
-  createConversation,
+  GetConversationsParams,
   UpdateConversationParams,
-  updateConversation,
+  createConversation,
   deleteConversation,
+  getConversationById,
+  getConversations,
+  updateConversation,
 } from "../repositories/conversations.repository";
-import { Conversation } from "@src/types/conversations.type";
 
 export const useGetConversationsQuery = (params?: GetConversationsParams) => {
   return useQuery({

@@ -3,7 +3,7 @@ import { useGetConversationsQuery } from "@src/remote/queries/conversations.quer
 import ChatBox from "./ChatBox/ChatBox";
 import ChatSidebar from "./ChatSidebar/ChatSidebar";
 
-import type { Conversation } from "@src/types/conversations.type";
+import type { Conversation } from "@src/types/conversations.types";
 
 import "./Chat.css";
 

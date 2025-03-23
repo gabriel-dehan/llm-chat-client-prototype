@@ -1,0 +1,47 @@
+.m-chat-input {
+  &__container {
+    display: flex;
+    position: relative;
+
+    justify-content: center;
+    max-width: 40rem;
+    margin: 0 auto 1.4rem auto;
+  }
+
+  &__content {
+    background-color: var(--gray-6);
+    border: none;
+
+    border-radius: 1rem;
+    width: 100%;
+    min-height: 40px;
+    padding: 1rem 2.8rem 1rem 1rem;
+
+    resize: none;
+    font-family: inherit;
+    font-size: 1rem;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  &__send-button {
+    --send-icon-color: var(--gray-9);
+
+    background-color: transparent;
+    border: none;
+
+    position: absolute;
+    right: 0.2rem;
+    bottom: 0.5rem;
+
+    padding: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      --send-icon-color: var(--gray-10);
+      background-color: transparent;
+    }
+  }
+}

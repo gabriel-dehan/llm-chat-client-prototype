@@ -1,6 +1,6 @@
 import { getClient } from "./client";
 
-import type { Message } from "@types/conversations.type";
+import type { Message } from "@src/types/conversations.types";
 
 // Params types
 export type GetMessagesParams = {
@@ -19,9 +19,10 @@ export type UpdateMessageParams = {
 const client = getClient();
 
 export const getMessages = async (
-  conversationId: string,
+  conversationId: string | null,
   params?: GetMessagesParams
 ): Promise<Message[]> => {
+  if (!conversationId) return [];
   const response = await client.get<Message[]>(
     `/conversations/${conversationId}/messages`,
     params

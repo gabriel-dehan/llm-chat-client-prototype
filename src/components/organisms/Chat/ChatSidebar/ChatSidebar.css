@@ -1,5 +1,6 @@
 .org-chat-sidebar {
   background-color: var(--component-background-color);
+  border-right: 1px solid var(--gray-6);
 
   position: sticky;
   overflow: auto;

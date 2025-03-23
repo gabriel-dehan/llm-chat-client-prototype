@@ -4,7 +4,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import ScrollArea from "@src/components/molecules/ScrollArea/ScrollArea";
 import { useCreateConversationMutation } from "@src/remote/queries/conversations.queries";
 
-import type { Conversation } from "@src/types/conversations.type";
+import type { Conversation } from "@src/types/conversations.types";
 
 import "./ChatSidebar.css";
 

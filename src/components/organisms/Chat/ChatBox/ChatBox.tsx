@@ -1,6 +1,12 @@
-import { useGetMessagesQuery } from "@src/remote/queries/messages.queries";
-import { Conversation } from "@src/types/conversations.type";
 import { z } from "zod";
+
+import ChatInput from "@src/components/molecules/ChatInput/ChatInput";
+import Message from "@src/components/molecules/Message/Message";
+import { useGetMessagesQuery } from "@src/remote/queries/messages.queries";
+
+import type { Conversation } from "@src/types/conversations.types";
+
+import "./ChatBox.css";
 
 const messageSchema = z.object({
   id: z.string(),
@@ -18,24 +24,26 @@ type ChatBoxProps = {
 };
 
 const ChatBox = ({ conversation }: ChatBoxProps) => {
-  const messages = conversation?.id
-    ? useGetMessagesQuery(conversation.id).data || []
-    : [];
+  const { data: messages } = useGetMessagesQuery(conversation?.id || null);
+
+  const handleSubmit = async (content: string) => {
+    console.log("Sending message:", content);
+  };
 
   return (
-    <div>
-      <h1>{conversation?.title}</h1>
-      <div>
-        <ul>
-          {messages.map((message) => (
-            <li key={`message-${message.id}`}>{message.content}</li>
+    <div className="org-chatbox">
+      <h1 className="org-chatbox__title">{conversation?.title}</h1>
+      <div className="org-chatbox__messages-container">
+        <ul className="org-chatbox__messages-list">
+          {messages?.map((message) => (
+            <Message key={`message-${message.id}`} message={message} />
+          ))}
+          {messages?.map((message) => (
+            <Message key={`message-${message.id}`} message={message} />
           ))}
         </ul>
       </div>
-      <div>
-        <input type="text" />
-        <button>Send</button>
-      </div>
+      <ChatInput onSubmit={handleSubmit} />
     </div>
   );
 };

@@ -1,15 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  getMessages,
-  CreateMessageParams,
-  createMessage,
-  UpdateMessageParams,
-  updateMessage,
-} from "../repositories/messages.repository";
-import { Message } from "@src/types/conversations.type";
 import { v4 as uuidv4 } from "uuid";
 
-export const useGetMessagesQuery = (conversationId: string) => {
+import {
+  createMessage,
+  CreateMessageParams,
+  getMessages,
+  updateMessage,
+  UpdateMessageParams,
+} from "../repositories/messages.repository";
+
+import type { Message } from "@src/types/conversations.types";
+
+export const useGetMessagesQuery = (conversationId: string | null) => {
   return useQuery({
     queryKey: ["messages", conversationId],
     queryFn: () => getMessages(conversationId),
@@ -28,7 +30,7 @@ export const useCreateMessageMutation = () => {
       data: CreateMessageParams;
     }) => createMessage(conversationId, data),
     // Optimistic update
-    onMutate: async ({ conversationId, data }) => {
+    onMutate: ({ conversationId, data }) => {
       const optimisticId = `temp-${uuidv4()}`;
       const previousMessages = queryClient.getQueryData<Message[]>([
         "messages",
@@ -81,7 +83,7 @@ export const useUpdateMessageMutation = (conversationId: string) => {
       messageId: string;
       data: UpdateMessageParams;
     }) => updateMessage(messageId, data),
-    onMutate: async ({ messageId, data }) => {
+    onMutate: ({ messageId, data }) => {
       const messages = queryClient.getQueryData<Message[]>([
         "messages",
         conversationId,
