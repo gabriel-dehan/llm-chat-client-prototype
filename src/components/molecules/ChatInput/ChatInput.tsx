@@ -2,9 +2,12 @@ import { PaperPlaneRight } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 
+import { useCreateMessageMutation } from "@src/remote/queries/messages.queries";
+
 import "./ChatInput.css";
 
 type ChatInputProps = {
+  conversationId?: number;
   onSubmit: (content: string) => Promise<void>;
 };
 
@@ -12,11 +15,25 @@ type FormValues = {
   content: string;
 };
 
-const ChatInput = ({ onSubmit }: ChatInputProps) => {
+const ChatInput = ({ conversationId, onSubmit }: ChatInputProps) => {
   const { register, handleSubmit, reset } = useForm<FormValues>();
+
+  const { mutate: createMessage } = useCreateMessageMutation();
 
   const onFormSubmit = handleSubmit(async (data) => {
     await onSubmit(data.content);
+
+    // TODO: Create a new conversation if no conversationId is provided
+    if (!conversationId) return;
+
+    createMessage({
+      conversationId,
+      data: {
+        role: "user",
+        content: data.content,
+      },
+    });
+
     reset();
   });
 

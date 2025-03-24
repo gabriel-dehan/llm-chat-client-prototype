@@ -17,7 +17,7 @@ const Chat = ({ conversation: currentConversation }: ChatProps) => {
   return (
     <main className="org-chat">
       <ChatSidebar
-        activeConversationId={currentConversation?.id}
+        activeConversationId={currentConversation?.id || undefined}
         conversations={conversations || []}
       />
       <ChatBox conversation={currentConversation} />

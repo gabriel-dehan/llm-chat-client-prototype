@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 
+import { APIError } from "../errors/api.error";
 import {
   createMessage,
   CreateMessageParams,
@@ -11,7 +12,7 @@ import {
 
 import type { Message } from "@src/types/conversations.types";
 
-export const useGetMessagesQuery = (conversationId: string | null) => {
+export const useGetMessagesQuery = (conversationId: number | null) => {
   return useQuery({
     queryKey: ["messages", conversationId],
     queryFn: () => getMessages(conversationId),
@@ -26,7 +27,7 @@ export const useCreateMessageMutation = () => {
       conversationId,
       data,
     }: {
-      conversationId: string;
+      conversationId: number;
       data: CreateMessageParams;
     }) => createMessage(conversationId, data),
     // Optimistic update
@@ -40,7 +41,6 @@ export const useCreateMessageMutation = () => {
       const newMessage: Message = {
         ...data,
         id: optimisticId,
-        role: "user",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -53,8 +53,9 @@ export const useCreateMessageMutation = () => {
       // Return previous messages to be able to rollback
       return { optimisticId, previousMessages };
     },
-    onError: (error, { conversationId }, context) => {
-      // TODO: Handle error
+    onError: (error: APIError, { conversationId }, context) => {
+      console.error(error.message, JSON.stringify(error.data, null, 2));
+
       queryClient.setQueryData<Message[]>(
         ["messages", conversationId],
         context?.previousMessages || []
@@ -73,14 +74,14 @@ export const useCreateMessageMutation = () => {
   });
 };
 
-export const useUpdateMessageMutation = (conversationId: string) => {
+export const useUpdateMessageMutation = (conversationId: number) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       messageId,
       data,
     }: {
-      messageId: string;
+      messageId: number;
       data: UpdateMessageParams;
     }) => updateMessage(messageId, data),
     onMutate: ({ messageId, data }) => {

@@ -78,6 +78,7 @@ const typescriptConfig = {
     "@typescript-eslint/prefer-enum-initializers": "error",
     "@typescript-eslint/prefer-readonly": "error",
     "no-return-await": "off",
+    "@typescript-eslint/require-await": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/return-await": "error",
     "@typescript-eslint/no-misused-promises": [

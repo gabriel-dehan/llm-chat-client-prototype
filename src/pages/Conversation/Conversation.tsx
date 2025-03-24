@@ -1,12 +1,18 @@
-import { useLoaderData } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
-
 import Chat from "@src/components/organisms/Chat/Chat";
-import { Route } from "@src/routes/chat.$conversationId";
+import { Route as ChatNewRoute } from "@src/routes/chat";
+import { Route as ConversationRoute } from "@src/routes/chat.$conversationId";
+import { useMaybeLoaderData } from "@src/utils/useMaybeLoaderData";
+
+import type { Conversation as ConversationType } from "@src/types/conversations.types";
 
 const Conversation = () => {
-  const { t } = useTranslation();
-  const { conversation } = useLoaderData({ from: Route.fullPath });
+  const { data: conversation } = useMaybeLoaderData<ConversationType>(
+    ChatNewRoute.id,
+    ConversationRoute.id,
+    {
+      defaultData: { id: null, title: "New Conversation", messages: [] },
+    }
+  );
 
   return (
     <div>

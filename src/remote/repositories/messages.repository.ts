@@ -10,6 +10,7 @@ export type GetMessagesParams = {
 
 export type CreateMessageParams = {
   content: string;
+  role: "user" | "assistant";
 };
 
 export type UpdateMessageParams = {
@@ -19,7 +20,7 @@ export type UpdateMessageParams = {
 const client = getClient();
 
 export const getMessages = async (
-  conversationId: string | null,
+  conversationId: number | null,
   params?: GetMessagesParams
 ): Promise<Message[]> => {
   if (!conversationId) return [];
@@ -31,24 +32,25 @@ export const getMessages = async (
 };
 
 export const createMessage = async (
-  conversationId: string,
+  conversationId: number,
   data: CreateMessageParams
 ): Promise<Message> => {
   const response = await client.post<Message>(
     `/conversations/${conversationId}/messages`,
     data
   );
+
   return response.json();
 };
 
 export const updateMessage = async (
-  messageId: string,
+  messageId: number,
   data: UpdateMessageParams
 ): Promise<Message> => {
   const response = await client.put<Message>(`/messages/${messageId}`, data);
   return response.json();
 };
 
-export const deleteMessage = async (messageId: string): Promise<void> => {
+export const deleteMessage = async (messageId: number): Promise<void> => {
   await client.delete(`/messages/${messageId}`);
 };

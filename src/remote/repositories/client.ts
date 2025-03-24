@@ -1,5 +1,7 @@
 import { apiUrl } from "@utils/env";
 
+import { APIError } from "../errors/api.error";
+
 type TypedResponse<T> = Omit<Response, "json"> & {
   json(): Promise<T>;
 };
@@ -43,7 +45,8 @@ export class Client {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorData = await response.json();
+      throw new APIError(response.status, response.statusText, errorData);
     }
 
     return response as TypedResponse<T>;

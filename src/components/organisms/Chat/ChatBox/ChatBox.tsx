@@ -1,8 +1,10 @@
+import { useEffect, useRef } from "react";
 import { z } from "zod";
 
 import ChatInput from "@src/components/molecules/ChatInput/ChatInput";
 import Message from "@src/components/molecules/Message/Message";
 import { useGetMessagesQuery } from "@src/remote/queries/messages.queries";
+import { scrollToBottom } from "@src/utils/scrollToBottom";
 
 import type { Conversation } from "@src/types/conversations.types";
 
@@ -24,25 +26,34 @@ type ChatBoxProps = {
 };
 
 const ChatBox = ({ conversation }: ChatBoxProps) => {
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const { data: messages } = useGetMessagesQuery(conversation?.id || null);
 
   const handleSubmit = async (content: string) => {
-    console.log("Sending message:", content);
+    scrollToBottom(messagesContainerRef);
   };
+
+  useEffect(() => {
+    scrollToBottom(messagesContainerRef);
+  }, [messages]);
 
   return (
     <div className="org-chatbox">
       <h1 className="org-chatbox__title">{conversation?.title}</h1>
-      <div className="org-chatbox__messages-container">
-        {/* <ScrollArea> */}
+      <div
+        ref={messagesContainerRef}
+        className="org-chatbox__messages-container"
+      >
         <ul className="org-chatbox__messages-list">
           {messages?.map((message) => (
             <Message key={`message-${message.id}`} message={message} />
           ))}
         </ul>
-        {/* </ScrollArea> */}
       </div>
-      <ChatInput onSubmit={handleSubmit} />
+      <ChatInput
+        conversationId={conversation?.id || undefined}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 };

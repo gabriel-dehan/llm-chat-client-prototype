@@ -10,7 +10,7 @@ import "./ChatSidebar.css";
 
 type ChatSidebarProps = {
   conversations: Conversation[];
-  activeConversationId?: string;
+  activeConversationId?: number;
 };
 
 const ChatSidebar = ({
@@ -55,8 +55,10 @@ const ChatSidebar = ({
                 }`}
               >
                 <Link
-                  params={{ conversationId: conversation.id }}
                   to={`/chat/$conversationId`}
+                  params={{
+                    conversationId: conversation.id?.toString() || "new",
+                  }}
                 >
                   {conversation.title} - {conversation.id}
                 </Link>
