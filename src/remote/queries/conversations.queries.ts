@@ -1,5 +1,7 @@
-import { Conversation } from "@src/types/conversations.types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { Conversation } from "@src/types/conversations.types";
+
 import {
   CreateConversationParams,
   GetConversationsParams,
@@ -18,7 +20,7 @@ export const useGetConversationsQuery = (params?: GetConversationsParams) => {
   });
 };
 
-export const useGetConversationByIdQuery = (id: string) => {
+export const useGetConversationByIdQuery = (id: number) => {
   return useQuery({
     queryKey: ["conversation", id],
     queryFn: () => getConversationById(id),
@@ -29,8 +31,8 @@ export const useCreateConversationMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: CreateConversationParams) => createConversation(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["conversations"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["conversations"] });
     },
   });
 };
@@ -42,11 +44,11 @@ export const useUpdateConversationMutation = () => {
       id,
       data,
     }: {
-      id: string;
+      id: number;
       data: UpdateConversationParams;
     }) => updateConversation(id, data),
-    onSuccess: (updatedConversation, { id }) => {
-      queryClient.invalidateQueries({ queryKey: ["conversations"] });
+    onSuccess: async (updatedConversation, { id }) => {
+      await queryClient.invalidateQueries({ queryKey: ["conversations"] });
 
       queryClient.setQueryData<Conversation>(
         ["conversation", id],
@@ -59,9 +61,9 @@ export const useUpdateConversationMutation = () => {
 export const useDeleteConversationMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deleteConversation(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["conversations"] });
+    mutationFn: (id: number) => deleteConversation(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["conversations"] });
     },
   });
 };

@@ -1,7 +1,9 @@
 import { PaperPlaneRight } from "@phosphor-icons/react";
+import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 
+import { useCreateConversationMutation } from "@src/remote/queries/conversations.queries";
 import { useCreateMessageMutation } from "@src/remote/queries/messages.queries";
 
 import "./ChatInput.css";
@@ -19,20 +21,43 @@ const ChatInput = ({ conversationId, onSubmit }: ChatInputProps) => {
   const { register, handleSubmit, reset } = useForm<FormValues>();
 
   const { mutate: createMessage } = useCreateMessageMutation();
+  const { mutate: createConversation } = useCreateConversationMutation();
+  const navigate = useNavigate();
 
   const onFormSubmit = handleSubmit(async (data) => {
     await onSubmit(data.content);
 
-    // TODO: Create a new conversation if no conversationId is provided
-    if (!conversationId) return;
-
-    createMessage({
-      conversationId,
-      data: {
-        role: "user",
-        content: data.content,
-      },
-    });
+    if (!conversationId) {
+      createConversation(
+        { title: "New conversation" },
+        {
+          onSuccess: (conversation) => {
+            createMessage(
+              {
+                conversationId: conversation.id!,
+                data: {
+                  role: "user",
+                  content: data.content,
+                },
+              },
+              {
+                onSuccess: () => {
+                  void navigate({ to: `/chat/${conversation.id}` });
+                },
+              }
+            );
+          },
+        }
+      );
+    } else {
+      createMessage({
+        conversationId,
+        data: {
+          role: "user",
+          content: data.content,
+        },
+      });
+    }
 
     reset();
   });

@@ -2,7 +2,6 @@ import { FilePlus } from "@phosphor-icons/react";
 import { Link, useNavigate } from "@tanstack/react-router";
 
 import ScrollArea from "@src/components/molecules/ScrollArea/ScrollArea";
-import { useCreateConversationMutation } from "@src/remote/queries/conversations.queries";
 
 import type { Conversation } from "@src/types/conversations.types";
 
@@ -17,19 +16,7 @@ const ChatSidebar = ({
   conversations,
   activeConversationId,
 }: ChatSidebarProps) => {
-  const { mutate: createConversation } = useCreateConversationMutation();
   const navigate = useNavigate();
-
-  const handleCreateConversation = (title: string) => {
-    createConversation(
-      { title },
-      {
-        onSuccess: (data) => {
-          void navigate({ to: `/chat/${data.id}` });
-        },
-      }
-    );
-  };
 
   return (
     <nav className="org-chat-sidebar">
@@ -37,7 +24,7 @@ const ChatSidebar = ({
         <button
           className="org-chat-sidebar__new-conversation-button"
           onClick={() => {
-            handleCreateConversation(`New conversation`);
+            void navigate({ to: "/chat" });
           }}
         >
           <FilePlus size={16} weight="regular" />
