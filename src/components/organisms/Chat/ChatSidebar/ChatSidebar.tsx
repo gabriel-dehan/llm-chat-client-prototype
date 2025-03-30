@@ -9,7 +9,7 @@ import "./ChatSidebar.css";
 
 type ChatSidebarProps = {
   conversations: Conversation[];
-  activeConversationId?: number;
+  activeConversationId?: string;
 };
 
 const ChatSidebar = ({

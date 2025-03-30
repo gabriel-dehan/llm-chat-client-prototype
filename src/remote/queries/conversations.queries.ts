@@ -20,7 +20,7 @@ export const useGetConversationsQuery = (params?: GetConversationsParams) => {
   });
 };
 
-export const useGetConversationByIdQuery = (id: number) => {
+export const useGetConversationByIdQuery = (id: string) => {
   return useQuery({
     queryKey: ["conversation", id],
     queryFn: () => getConversationById(id),
@@ -44,7 +44,7 @@ export const useUpdateConversationMutation = () => {
       id,
       data,
     }: {
-      id: number;
+      id: string;
       data: UpdateConversationParams;
     }) => updateConversation(id, data),
     onSuccess: async (updatedConversation, { id }) => {
@@ -61,7 +61,7 @@ export const useUpdateConversationMutation = () => {
 export const useDeleteConversationMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => deleteConversation(id),
+    mutationFn: (id: string) => deleteConversation(id),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["conversations"] });
     },

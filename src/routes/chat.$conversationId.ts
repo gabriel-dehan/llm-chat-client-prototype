@@ -6,7 +6,7 @@ import { getConversationById } from "@src/remote/repositories/conversations.repo
 import type { Conversation as ConversationType } from "@src/types/conversations.types";
 
 type ChatRouteParams = {
-  conversationId: number;
+  conversationId: string;
 };
 
 export const Route = createFileRoute("/chat/$conversationId")({

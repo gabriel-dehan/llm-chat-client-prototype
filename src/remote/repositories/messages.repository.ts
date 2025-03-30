@@ -20,7 +20,7 @@ export type UpdateMessageParams = {
 const client = getClient();
 
 export const getMessages = async (
-  conversationId: number | null,
+  conversationId: string | null,
   params?: GetMessagesParams
 ): Promise<Message[]> => {
   if (!conversationId) return [];
@@ -32,7 +32,7 @@ export const getMessages = async (
 };
 
 export const createMessage = async (
-  conversationId: number,
+  conversationId: string,
   data: CreateMessageParams
 ): Promise<Message> => {
   const response = await client.post<Message>(
@@ -44,13 +44,13 @@ export const createMessage = async (
 };
 
 export const updateMessage = async (
-  messageId: number,
+  messageId: string,
   data: UpdateMessageParams
 ): Promise<Message> => {
   const response = await client.put<Message>(`/messages/${messageId}`, data);
   return response.json();
 };
 
-export const deleteMessage = async (messageId: number): Promise<void> => {
+export const deleteMessage = async (messageId: string): Promise<void> => {
   await client.delete(`/messages/${messageId}`);
 };

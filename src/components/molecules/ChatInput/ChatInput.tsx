@@ -9,7 +9,7 @@ import { useCreateMessageMutation } from "@src/remote/queries/messages.queries";
 import "./ChatInput.css";
 
 type ChatInputProps = {
-  conversationId?: number;
+  conversationId?: string;
   onSubmit: (content: string) => Promise<void>;
 };
 
@@ -20,7 +20,7 @@ type FormValues = {
 const ChatInput = ({ conversationId, onSubmit }: ChatInputProps) => {
   const { register, handleSubmit, reset } = useForm<FormValues>();
 
-  const { mutate: createMessage } = useCreateMessageMutation();
+  const { mutate: createMessage, abortController } = useCreateMessageMutation();
   const { mutate: createConversation } = useCreateConversationMutation();
   const navigate = useNavigate();
 

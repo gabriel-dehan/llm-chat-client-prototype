@@ -1,3 +1,8 @@
+import {
+  EventSourceMessage,
+  fetchEventSource,
+} from "@microsoft/fetch-event-source";
+
 import { apiUrl } from "@utils/env";
 
 import { APIError } from "../errors/api.error";
@@ -22,8 +27,8 @@ export class Client {
     this.accessToken = null;
   }
 
-  private getHeaders(): HeadersInit {
-    const headers: HeadersInit = {
+  private getHeaders() {
+    const headers: Record<string, string> = {
       "Content-Type": "application/json",
     };
 
@@ -36,11 +41,10 @@ export class Client {
 
   private async request<T>(
     path: string,
-    options: RequestInit
+    options: Record<string, any>
   ): Promise<TypedResponse<T>> {
     const response = await fetch(`${this.baseUrl}${path}`, {
       ...options,
-      credentials: "include",
       headers: this.getHeaders(),
     });
 
@@ -75,6 +79,46 @@ export class Client {
 
   async delete(path: string) {
     return this.request<void>(path, { method: "DELETE" });
+  }
+
+  async streamRequest<T>(
+    path: string,
+    options: Record<string, any>,
+    {
+      onMessage,
+      onOpen,
+      onClose,
+      onError,
+      signal,
+    }: {
+      onMessage: (event: EventSourceMessage) => void;
+      onOpen?: (response: Response) => void | Promise<void>;
+      onClose?: () => void;
+      onError?: (err: Error) => void;
+      signal?: AbortSignal;
+    }
+  ): Promise<void> {
+    const url = `${this.baseUrl}${path}`;
+
+    return fetchEventSource(url, {
+      ...options,
+      headers: this.getHeaders(),
+      signal,
+      onopen: async (response) => {
+        // Make sure the response is ok before calling the onOpen callbackß
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new APIError(response.status, response.statusText, errorData);
+        }
+
+        if (onOpen) {
+          await onOpen(response);
+        }
+      },
+      onmessage: onMessage,
+      onclose: onClose,
+      onerror: onError,
+    });
   }
 }
 

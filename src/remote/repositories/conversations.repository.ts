@@ -29,7 +29,7 @@ export const getConversations = async (
 };
 
 export const getConversationById = async (
-  id: number
+  id: string
 ): Promise<Conversation> => {
   const response = await client.get<Conversation>(`/conversations/${id}`);
   return response.json();
@@ -43,13 +43,13 @@ export const createConversation = async (
 };
 
 export const updateConversation = async (
-  id: number,
+  id: string,
   data: UpdateConversationParams
 ): Promise<Conversation> => {
   const response = await client.put<Conversation>(`/conversations/${id}`, data);
   return response.json();
 };
 
-export const deleteConversation = async (id: number): Promise<void> => {
+export const deleteConversation = async (id: string): Promise<void> => {
   await client.delete(`/conversations/${id}`);
 };

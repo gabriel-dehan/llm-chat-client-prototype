@@ -1,6 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 
+import { CompletionsStreamResponse } from "@src/types/completions.type";
+import { completionsText } from "@src/utils/completionsText";
+
 import { APIError } from "../errors/api.error";
 import {
   createMessage,
@@ -9,10 +12,11 @@ import {
   updateMessage,
   UpdateMessageParams,
 } from "../repositories/messages.repository";
+import { useStreamedCompletionsQuery } from "./completions.queries";
 
 import type { Message } from "@src/types/conversations.types";
 
-export const useGetMessagesQuery = (conversationId: number | null) => {
+export const useGetMessagesQuery = (conversationId: string | null) => {
   return useQuery({
     queryKey: ["messages", conversationId],
     queryFn: () => getMessages(conversationId),
@@ -21,13 +25,15 @@ export const useGetMessagesQuery = (conversationId: number | null) => {
 
 export const useCreateMessageMutation = () => {
   const queryClient = useQueryClient();
+  const { mutate: streamCompletions } = useStreamedCompletionsQuery();
+  const abortController = new AbortController();
 
-  return useMutation({
+  const mutation = useMutation({
     mutationFn: async ({
       conversationId,
       data,
     }: {
-      conversationId: number;
+      conversationId: string;
       data: CreateMessageParams;
     }) => createMessage(conversationId, data),
     // Optimistic update
@@ -70,18 +76,81 @@ export const useCreateMessageMutation = () => {
             message.id === optimisticId ? newMessage : message
           )
       );
+
+      // Now that the message is created, we can stream the completions
+      // Create a new empty assistant message that will be updated with the completions
+      let completionMessage: Message = {
+        id: `temp-completion-${uuidv4()}`,
+        role: "assistant",
+        content: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      queryClient.setQueryData<Message[]>(
+        ["messages", conversationId],
+        (messages) => [...(messages || []), completionMessage]
+      );
+
+      streamCompletions({
+        conversationId,
+        messageId: newMessage.id,
+        abortController,
+        onMessage: (message) => {
+          if (message.event) {
+            console.warn(message.event);
+          }
+
+          // TODO: Handle tools vs text
+          if (message.data) {
+            try {
+              const response = JSON.parse(
+                message.data
+              ) as CompletionsStreamResponse;
+
+              const text = completionsText(response);
+
+              completionMessage = {
+                ...completionMessage,
+                content: completionMessage.content + text,
+                updatedAt: new Date(),
+              };
+
+              console.log(text);
+
+              queryClient.setQueryData<Message[]>(
+                ["messages", conversationId],
+                (messages) =>
+                  messages?.map((message) =>
+                    message.id === completionMessage.id
+                      ? completionMessage
+                      : message
+                  )
+              );
+            } catch (error) {
+              console.error(error);
+              throw error;
+            }
+          }
+        },
+      });
     },
   });
+
+  return {
+    ...mutation,
+    abortController,
+  };
 };
 
-export const useUpdateMessageMutation = (conversationId: number) => {
+export const useUpdateMessageMutation = (conversationId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       messageId,
       data,
     }: {
-      messageId: number;
+      messageId: string;
       data: UpdateMessageParams;
     }) => updateMessage(messageId, data),
     onMutate: ({ messageId, data }) => {
