@@ -22,6 +22,8 @@ export const streamCompletions = async ({
     messageId,
   };
 
+  let lastChunkTime = Date.now();
+
   return client.streamRequest<string>(
     `/conversations/${conversationId}/messages/${messageId}/completions`,
     {
@@ -30,9 +32,31 @@ export const streamCompletions = async ({
       signal: abortController.signal,
     },
     {
-      onMessage,
+      onMessage: (message) => {
+        const now = Date.now();
+        const timeSinceLastChunk = now - lastChunkTime;
+        lastChunkTime = now;
+
+        console.debug(
+          `Received SSE chunk after ${timeSinceLastChunk}ms:`,
+          message
+        );
+
+        // Process each message individually with a slight delay to help visualize streaming
+        setTimeout(() => {
+          onMessage(message);
+        }, 0); // Using setTimeout with 0ms to defer to next event loop cycle
+      },
       onError: (error) => {
+        console.error("Stream error:", error);
         throw error;
+      },
+      onOpen: (response) => {
+        console.debug("Stream opened", response.status);
+        lastChunkTime = Date.now();
+      },
+      onClose: () => {
+        console.debug("Stream closed");
       },
     }
   );

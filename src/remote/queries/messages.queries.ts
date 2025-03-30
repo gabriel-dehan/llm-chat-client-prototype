@@ -116,7 +116,7 @@ export const useCreateMessageMutation = () => {
                 updatedAt: new Date(),
               };
 
-              console.log(text);
+              // console.log(text);
 
               queryClient.setQueryData<Message[]>(
                 ["messages", conversationId],

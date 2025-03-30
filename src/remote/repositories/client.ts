@@ -104,6 +104,7 @@ export class Client {
       ...options,
       headers: this.getHeaders(),
       signal,
+      openWhenHidden: true,
       onopen: async (response) => {
         // Make sure the response is ok before calling the onOpen callbackß
         if (!response.ok) {
@@ -115,7 +116,10 @@ export class Client {
           await onOpen(response);
         }
       },
-      onmessage: onMessage,
+      onmessage: (message) => {
+        console.log("Received message:", message);
+        onMessage(message);
+      },
       onclose: onClose,
       onerror: onError,
     });
