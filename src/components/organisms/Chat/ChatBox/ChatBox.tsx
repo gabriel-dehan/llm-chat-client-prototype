@@ -13,7 +13,7 @@ import "./ChatBox.css";
 const messageSchema = z.object({
   id: z.string(),
   content: z.string(),
-  role: z.enum(["user", "assistant"]),
+  role: z.enum(["user", "model"]),
 });
 
 const conversationSchema = z.object({

@@ -78,10 +78,10 @@ export const useCreateMessageMutation = () => {
       );
 
       // Now that the message is created, we can stream the completions
-      // Create a new empty assistant message that will be updated with the completions
+      // Create a new empty model message that will be updated with the completions
       let completionMessage: Message = {
         id: `temp-completion-${uuidv4()}`,
-        role: "assistant",
+        role: "model",
         content: "",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -92,6 +92,7 @@ export const useCreateMessageMutation = () => {
         (messages) => [...(messages || []), completionMessage]
       );
 
+      // Send the message to the API to get the LLM response
       streamCompletions({
         conversationId,
         messageId: newMessage.id,
@@ -115,8 +116,6 @@ export const useCreateMessageMutation = () => {
                 content: completionMessage.content + text,
                 updatedAt: new Date(),
               };
-
-              // console.log(text);
 
               queryClient.setQueryData<Message[]>(
                 ["messages", conversationId],

@@ -1,7 +1,7 @@
 export type Message = {
   id: string;
   content: string;
-  role: "user" | "assistant";
+  role: "user" | "model";
   createdAt: Date;
   updatedAt: Date;
 };

@@ -100,6 +100,34 @@ export class Client {
   ): Promise<void> {
     const url = `${this.baseUrl}${path}`;
 
+    // const response = await fetch(url, {
+    //   ...options,
+    //   headers: this.getHeaders(),
+    // });
+
+    // if (!response.ok) {
+    //   throw new Error(
+    //     `Server error: ${response.status} ${response.statusText}`
+    //   );
+    // }
+
+    // if (!response.body) {
+    //   throw new Error("Response body is null");
+    // }
+
+    // const reader = response.body.getReader();
+    // const decoder = new TextDecoder();
+    // const buffer = "";
+
+    // while (true) {
+    //   const { done, value } = await reader.read();
+    //   console.log(value);
+    //   if (done) {
+    //     console.debug("Stream closed");
+    //     break;
+    //   }
+    // }
+
     return fetchEventSource(url, {
       ...options,
       headers: this.getHeaders(),

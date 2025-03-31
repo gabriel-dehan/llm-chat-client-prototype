@@ -12,11 +12,9 @@ export function completionsText(data: CompletionsStreamResponse): string {
     return "";
   }
   let text = "";
-  let hasTextContent = false;
 
   for (const part of data.candidates[0].content.parts) {
-    if (typeof part.text === "string") {
-      hasTextContent = true;
+    if (part.text) {
       text += part.text;
     }
     // TODO: Only for debugging
@@ -25,5 +23,5 @@ export function completionsText(data: CompletionsStreamResponse): string {
     }
   }
 
-  return hasTextContent ? text : "";
+  return text;
 }

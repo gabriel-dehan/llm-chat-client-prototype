@@ -10,7 +10,7 @@ export type GetMessagesParams = {
 
 export type CreateMessageParams = {
   content: string;
-  role: "user" | "assistant";
+  role: "user" | "model";
 };
 
 export type UpdateMessageParams = {

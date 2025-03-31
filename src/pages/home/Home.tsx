@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+
 import Chat from "@src/components/organisms/Chat/Chat";
 
 const Home = () => {
